@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Climbing Labels</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+  </head>
+
+  <body>
+    <div id="sections"></div>
+    <script type="text/babel">
+      console.log(atob(location.search.substr(1)))
+
+      const climbs = atob(location.search.substr(1))
+        .split('&')
+        .map((c) => decodeURIComponent(c).split('~'))
+
+      const render = () =>
+        climbs.map((c) => (
+          <Climb
+            grade={c[0]}
+            date={c[1]}
+            name={c[2]}
+            setters={c[3]}
+            notes={c[4]}
+            key={c[2]}
+          />
+        ))
+
+      const gradeColors = {
+        30: '#FF0000',
+        29: '#FF1000',
+        28: '#FF2000',
+        27: '#FF3000',
+        26: '#FF4000',
+        25: '#FF5000',
+        24: '#FF6000',
+        23: '#FF7000',
+        22: '#FF8000',
+        21: '#FFA000',
+        20: '#FFC000',
+        19: '#FFD000',
+        18: '#FFF000',
+        17: '#F0FF00',
+        16: '#E0FF00',
+        15: '#D0FF00',
+        14: '#C0FF00',
+        13: '#B0FF00',
+        12: '#A0FF00',
+        11: '#90FF00',
+        10: '#80FF00',
+      }
+
+      const Climb = ({ name, grade, date, setters, notes }) => {
+        const [nameSize, setNameSize] = React.useState(28)
+        const [sizing, setSizing] = React.useState(true)
+        const ref = React.useRef()
+        React.useEffect(() => {
+          const climb = ref.current
+          if (
+            nameSize > 1 &&
+            (climb.scrollHeight > climb.offsetHeight ||
+              climb.scrollWidth > climb.offsetWidth)
+          ) {
+            setNameSize(nameSize - 1)
+          } else {
+            setSizing(false)
+          }
+        }, [nameSize])
+
+        date = date ? new Date(date).toDateString().substr(4) : ''
+
+        const contentEditable = {
+          contentEditable: true,
+          suppressContentEditableWarning: true,
+        }
+
+        return (
+          <div className="climb" ref={ref} style={{ opacity: sizing ? 0 : 1 }}>
+            <div className="details">
+              <div
+                className="name"
+                style={{ fontSize: nameSize + 'vw' }}
+                {...contentEditable}
+              >
+                {name}
+              </div>
+              <div className="meta">
+                <div className="date" {...contentEditable}>
+                  {date}
+                </div>
+                <div className="setters" {...contentEditable}>
+                  {setters}
+                </div>
+                <div className="notes" {...contentEditable}>
+                  {notes}
+                </div>
+              </div>
+            </div>
+            <div
+              className="grade"
+              style={{ backgroundColor: gradeColors[grade] }}
+              {...contentEditable}
+            >
+              {grade || '?'}
+            </div>
+          </div>
+        )
+      }
+
+      ReactDOM.render(render(), document.getElementById('sections'))
+    </script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS',
+          sans-serif;
+      }
+      .climb {
+        height: 30vw;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border: 0.2vw solid black;
+        margin: 1vw;
+        margin-bottom: 5vw;
+        padding-left: 20vw;
+        outline: 1px solid grey;
+        overflow: scroll;
+      }
+      .details {
+        display: flex;
+        flex: 1;
+        height: 100%;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      .name {
+        display: flex;
+        flex: 1;
+        align-items: center;
+        line-height: 1;
+        margin: 1vw;
+      }
+      .meta {
+        display: flex;
+        justify-content: space-between;
+        font-size: 4vw;
+        margin: 1vw;
+      }
+      .grade {
+        display: flex;
+        background-color: orange;
+        border-radius: 16vw;
+        margin: 2vw;
+        padding: 3vw;
+        height: 16vw;
+        width: 16vw;
+        justify-content: center;
+        align-items: center;
+        font-size: 18vw;
+      }
+      @media print {
+        .climb {
+          page-break-inside: avoid;
+        }
+      }
+    </style>
+  </body>
+</html>

@@ -69,42 +69,50 @@
         39: { color: '#b81588', french: '9c', uiaa: 'XII+', yds: '5.15d' },
       }
 
-      const Climb = ({ name, grade, date, setters, notes }) => {
+      const contentEditable = {
+        contentEditable: true,
+        suppressContentEditableWarning: true,
+      }
+
+      const Title = ({ name, done }) => {
         const [nameSize, setNameSize] = React.useState(28)
-        const [sizing, setSizing] = React.useState(true)
         const ref = React.useRef()
         React.useEffect(() => {
-          const climb = ref.current
+          const element = ref.current
           if (
             nameSize > 1 &&
-            (climb.scrollHeight > climb.clientHeight ||
-              climb.scrollWidth > climb.clientWidth)
+            (element.scrollHeight > element.clientHeight ||
+              element.scrollWidth > element.clientWidth)
           ) {
             setNameSize(nameSize - 1)
           } else {
-            setSizing(false)
+            done()
           }
         }, [nameSize])
 
-        date = date ? new Date(date).toDateString().substr(4) : ''
+        return (
+          <div
+            ref={ref}
+            className="name"
+            style={{ fontSize: nameSize + 'vw' }}
+            {...contentEditable}
+          >
+            {name || '???'}
+          </div>
+        )
+      }
 
-        const contentEditable = {
-          contentEditable: true,
-          suppressContentEditableWarning: true,
-        }
+      const Climb = ({ name, grade, date, setters, notes }) => {
+        const [sizing, setSizing] = React.useState(true)
+        date = date ? new Date(date).toDateString().substr(4) : ''
 
         const gradeData = grades[grade] || { color: '#ccc' }
 
         return (
-          <div className="climb" ref={ref} style={{ opacity: sizing ? 0 : 1 }}>
+          <div className="climb" style={{ opacity: sizing ? 0 : 1 }}>
             <div className="details">
-              <div
-                className="name"
-                style={{ fontSize: nameSize + 'vw' }}
-                {...contentEditable}
-              >
-                {name || '???'}
-              </div>
+              <Title name={name} done={() => setSizing(false)} />
+
               <div className="meta">
                 <svg
                   viewBox="0 0 19 21"
@@ -121,15 +129,21 @@
                   />
                 </svg>
 
-                <div className="date" {...contentEditable}>
-                  {date}
-                </div>
-                <div className="setters" {...contentEditable}>
-                  {setters}
-                </div>
-                <div className="notes" {...contentEditable}>
-                  {notes}
-                </div>
+                {date && (
+                  <div className="date" {...contentEditable}>
+                    {date}
+                  </div>
+                )}
+                {setters && (
+                  <div className="setters" {...contentEditable}>
+                    {setters}
+                  </div>
+                )}
+                {notes && (
+                  <div className="notes" {...contentEditable}>
+                    {notes}
+                  </div>
+                )}
               </div>
             </div>
             <div className="grades">
@@ -165,20 +179,16 @@
           sans-serif;
       }
       .climb {
-        height: 32vw;
         display: flex;
-        justify-content: space-between;
-        border: 0.2vw solid black;
+        border: 0.4vw solid black;
         margin: 1vw;
         margin-bottom: 5vw;
         padding-left: 20vw;
-        outline: 1px solid grey;
-        overflow: scroll;
       }
       .details {
         display: flex;
-        flex: 1;
-        height: 100%;
+        flex: 3;
+        width: 1px;
         flex-direction: column;
         justify-content: space-between;
       }
@@ -188,10 +198,10 @@
         align-items: center;
         line-height: 1;
         margin: 1vw;
+        overflow: hidden;
       }
       .meta {
         display: flex;
-        justify-content: space-between;
         align-items: flex-end;
         font-size: 3vw;
         margin: 1vw;
@@ -211,10 +221,10 @@
       }
       .grades {
         display: flex;
+        flex: 1;
         flex-direction: column;
         align-items: center;
         justify-content: space-between;
-        margin: 2vw;
       }
       .grade {
         display: flex;
@@ -223,6 +233,7 @@
         padding: 3vw;
         height: 14vw;
         min-width: 14vw;
+        margin: 2vw;
         justify-content: center;
         align-items: center;
         font-size: 14vw;
@@ -233,6 +244,9 @@
         grid-template-columns: 1fr 1fr 1fr;
         grid-template-rows: auto auto;
         grid-column-gap: 3vw;
+        margin-left: 2vw;
+        margin-right: 2vw;
+        margin-bottom: 1vw;
       }
       dd {
         font-size: 1.6vw;

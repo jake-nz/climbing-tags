@@ -77,8 +77,8 @@
           const climb = ref.current
           if (
             nameSize > 1 &&
-            (climb.scrollHeight > climb.offsetHeight ||
-              climb.scrollWidth > climb.offsetWidth)
+            (climb.scrollHeight > climb.clientHeight ||
+              climb.scrollWidth > climb.clientWidth)
           ) {
             setNameSize(nameSize - 1)
           } else {

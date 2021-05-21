@@ -104,7 +104,7 @@
 
       const Climb = ({ name, grade, date, setters, notes }) => {
         const [sizing, setSizing] = React.useState(true)
-        date = date ? new Date(date).toDateString().substr(4) : ''
+        date = date ? new Date(date).toISOString().substr(0, 10) : ''
 
         const gradeData = grades[grade] || { color: '#ccc' }
 
@@ -146,14 +146,13 @@
                 )}
               </div>
             </div>
-            <div className="grades">
-              <div
-                className="grade"
-                style={{
-                  backgroundColor: gradeData.color,
-                }}
-                {...contentEditable}
-              >
+            <div
+              className="grades"
+              style={{
+                backgroundColor: gradeData.color,
+              }}
+            >
+              <div className="grade" {...contentEditable}>
                 {grade || '?'}
               </div>
               <dl>
@@ -180,14 +179,14 @@
       }
       .climb {
         display: flex;
-        border: 0.4vw solid black;
+        border: 3px solid black;
         margin: 1vw;
         margin-bottom: 5vw;
         padding-left: 20vw;
       }
       .details {
         display: flex;
-        flex: 3;
+        flex: 1;
         width: 1px;
         flex-direction: column;
         justify-content: space-between;
@@ -208,7 +207,7 @@
       }
       .meta svg {
         margin-right: 3vw;
-        height: 8vw;
+        height: 6vw;
       }
       .date {
         margin-right: 3vw;
@@ -221,23 +220,22 @@
       }
       .grades {
         display: flex;
-        flex: 1;
         flex-direction: column;
         align-items: center;
         justify-content: space-between;
+        width: 22vw;
       }
       .grade {
         display: flex;
-        background-color: orange;
-        border-radius: 14vw;
-        padding: 3vw;
+        /* border-radius: 14vw; */
+        /* padding: 3vw; */
         height: 14vw;
         min-width: 14vw;
         margin: 2vw;
         justify-content: center;
         align-items: center;
         font-size: 14vw;
-        border: 2px solid #000;
+        /* border: 2px solid #000; */
       }
       dl {
         display: grid;

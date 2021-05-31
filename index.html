@@ -75,7 +75,7 @@
       }
 
       const Title = ({ name, done }) => {
-        const [nameSize, setNameSize] = React.useState(28)
+        const [nameSize, setNameSize] = React.useState(11)
         const ref = React.useRef()
         React.useEffect(() => {
           const element = ref.current
@@ -84,7 +84,7 @@
             (element.scrollHeight > element.clientHeight ||
               element.scrollWidth > element.clientWidth)
           ) {
-            setNameSize(nameSize - 1)
+            setNameSize(nameSize - 0.5)
           } else {
             done()
           }
@@ -97,7 +97,7 @@
             style={{ fontSize: nameSize + 'vw' }}
             {...contentEditable}
           >
-            {name}
+            {name || '\u00A0'}
           </div>
         )
       }
@@ -180,8 +180,9 @@
       .climb {
         display: flex;
         border: 3px solid black;
-        margin: 1vw;
-        margin-bottom: 5vw;
+        border-left: none;
+        /* margin: 1vw; */
+        margin-bottom: 3vw;
         padding-left: 20vw;
       }
       .details {
@@ -197,6 +198,7 @@
         align-items: center;
         line-height: 1;
         margin: 1vw;
+        margin-right: 3vw;
         overflow: hidden;
       }
       .meta {
@@ -227,15 +229,12 @@
       }
       .grade {
         display: flex;
-        /* border-radius: 14vw; */
-        /* padding: 3vw; */
         height: 14vw;
         min-width: 14vw;
         margin: 2vw;
         justify-content: center;
         align-items: center;
         font-size: 14vw;
-        /* border: 2px solid #000; */
       }
       dl {
         display: grid;

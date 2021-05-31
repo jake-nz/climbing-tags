@@ -80,7 +80,7 @@
         React.useEffect(() => {
           const element = ref.current
           if (
-            nameSize > 1 &&
+            nameSize > 4 &&
             (element.scrollHeight > element.clientHeight ||
               element.scrollWidth > element.clientWidth)
           ) {
@@ -177,11 +177,21 @@
         font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS',
           sans-serif;
       }
+      @media print {
+        .name {
+          /* Give a little extra space because the layout changes
+          slightly in print which can cause it to overflow to 2 lines
+          when it as originally sized for one */
+          margin-right: 0 !important;
+          /* some labels get weirdly tall in print, don't */
+          max-height: 13vw;
+        }
+      }
       .climb {
         display: flex;
         border: 3px solid black;
         border-left: none;
-        /* margin: 1vw; */
+        margin: 1vw;
         margin-bottom: 3vw;
         padding-left: 20vw;
       }

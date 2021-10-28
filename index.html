@@ -80,9 +80,9 @@
         React.useEffect(() => {
           const element = ref.current
           if (
-            nameSize > 4 &&
+            nameSize > 3 &&
             (element.scrollHeight > element.clientHeight ||
-              element.scrollWidth > element.clientWidth)
+              element.scrollWidth > window.innerWidth / 2)
           ) {
             setNameSize(nameSize - 0.5)
           } else {

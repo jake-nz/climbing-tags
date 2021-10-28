@@ -110,6 +110,7 @@
 
         return (
           <div className="climb" style={{ opacity: sizing ? 0 : 1 }}>
+            <span class="no-trim">↑ Don't trim ↑</span>
             <div className="details">
               <Title name={name} done={() => setSizing(false)} />
 
@@ -194,6 +195,14 @@
         margin: 1vw;
         margin-bottom: 3vw;
         padding-left: 20vw;
+        position: relative;
+      }
+      .no-trim {
+        position: absolute;
+        transform: rotate(-90deg);
+        top: 50%;
+        left: -5vw;
+        font-size: 2vw;
       }
       .details {
         display: flex;

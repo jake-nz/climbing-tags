@@ -13,10 +13,10 @@
     <script type="text/babel">
       const climbs = atob(location.search.substr(1))
         .split('&')
-        .map((c) => decodeURIComponent(c).split('~'))
+        .map(c => decodeURIComponent(c).split('~'))
 
       const render = () =>
-        climbs.map((c) => (
+        climbs.map(c => (
           <Climb
             grade={c[0]}
             date={c[1]}
@@ -66,12 +66,12 @@
         36: { color: '#aa1b7b', french: '9a+', uiaa: 'XI+', yds: '5.15a' },
         37: { color: '#ae197f', french: '9b', uiaa: 'XII-', yds: '5.15b' },
         38: { color: '#b31783', french: '9b+', uiaa: 'XII', yds: '5.15c' },
-        39: { color: '#b81588', french: '9c', uiaa: 'XII+', yds: '5.15d' },
+        39: { color: '#b81588', french: '9c', uiaa: 'XII+', yds: '5.15d' }
       }
 
       const contentEditable = {
         contentEditable: true,
-        suppressContentEditableWarning: true,
+        suppressContentEditableWarning: true
       }
 
       const Title = ({ name, done }) => {
@@ -150,7 +150,7 @@
             <div
               className="grades"
               style={{
-                backgroundColor: gradeData.color,
+                backgroundColor: gradeData.color
               }}
             >
               <div className="grade" {...contentEditable}>
